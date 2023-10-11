@@ -1,0 +1,71 @@
+<LoginManager>:
+    Query:
+        name: "que"
+    Creation:
+        name: "add"
+    Interior:
+        name: "cor"
+
+<Query>:
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Username"
+            TextInput:
+                id: unam
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Password:"
+            TextInput:
+                id: pwrd
+        Button:
+            text: "Enter"
+            on_release: root.answer_question(unam.text,pwrd.text)
+        Button:
+            text: "Create Account"
+            on_release: root.advance()
+        Label:
+            id: test
+            text: ""
+
+
+<Creation>:
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Username"
+            TextInput:
+                id: u
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Password:"
+            TextInput:
+                id: p
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Password Confirmation:"
+            TextInput:
+                id: c
+        Button:
+            text: "Create"
+            on_release: root.answer_question(u.text,p.text,c.text)
+        Label:
+            id: test
+            text: ""
+
+
+<Interior>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Welcome"
+        Button:
+            text: "Exit"
+            on_release: root.advance()
