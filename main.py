@@ -2,35 +2,81 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 
+users={}
+Builder.load_file("LoginPage.kv")
 
-Builder.load_file("QuizPage.kv")
-class QuizPageApp(App):
+class LoginPageApp(App):
     def build(self):
-        return QuizManager()
+        return LoginManager()
 
-
-class QuizManager(ScreenManager):
+class LoginManager(ScreenManager):
     pass
 
 
-class Question1Screen(Screen):
-    def answer_question(self,bool):
-        if bool:
-            self.manager.current = "correct"
+class Query(Screen):
+    def answer_question(self,unam,pwrd):
+        if unam in users:
+            if users[unam]==pwrd:
+                self.manager.current = "cor"
         else:
-            self.manager.current = "incorrect"
+            self.ids.test.text = "Incorrect Username Or Password"
+    def advance(self):
+        self.manager.current = "add"
 
 
-class Question2Screen(Screen):
-    pass
+class Creation(Screen):
+    def answer_question(self,unam,pwrd,cfrm):
+        self.ids.test.text = ""
+        a=True
+        if unam in users:
+            a=False
+            self.ids.test.text += "Username Taken\n"
+        b = True
+        for i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            if i in pwrd:
+                b = False
+        if b:
+            a = False
+            self.ids.test.text += "Capital Required\n"
+        b = True
+        for i in "abcdefghijklmnopqrstuvwxyz":
+            if i in pwrd:
+                b = False
+        if b:
+            a = False
+            self.ids.test.text += "Lowercase Required\n"
+        b = True
+        for i in range(10):
+            if str(i) in pwrd:
+                b = False
+        if b:
+            a = False
+            self.ids.test.text += "Number Required\n"
+
+        b = True
+        for i in pwrd:
+            if i in "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890":
+                b = False
+        if b:
+            a = False
+            self.ids.test.text += "Special Character Required\n"
+        if len(pwrd) < 8:
+            a = False
+            self.ids.test.text += "At Least 8 Characters Required\n"
+        if cfrm != pwrd:
+            a = False
+            self.ids.test.text += "Password Does Not Match Confirmation"
+        if a:
+            users[unam] = pwrd
+            self.manager.current = "que"
 
 
-class CorrectScreen(Screen):
-    pass
 
 
-class IncorrectScreen(Screen):
-    pass
 
 
-QuizPageApp().run()
+class Interior(Screen):
+    def advance(self):
+        self.manager.current = "que"
+
+LoginPageApp().run()
